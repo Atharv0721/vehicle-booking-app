@@ -27,20 +27,20 @@ const MAP_STATUS: Record<BookingStatus, "arriving" | "ongoing" | "completed"> = 
 const STATUS_LABEL: Record<BookingStatus, { label: string; sublabel: string; dot: string }> = {
     idle: { label: "Awaiting Confirmation", sublabel: "Booking is being processed", dot: "bg-amber-400" },
     requested: { label: "Awaiting Confirmation", sublabel: "Booking is being processed", dot: "bg-amber-400" },
-    awaiting_payment: { label: "Payment Pending", sublabel: "Customer payment is pending", dot: "bg-purple-400" },
+    awaiting_payment: { label: "Payment Pending", sublabel: "Customer payment is pending", dot: "bg-amber-400" },
     confirmed: { label: "Heading to Pickup", sublabel: "Drive to the pickup location", dot: "bg-amber-400" },
     started: { label: "Ride in Progress", sublabel: "Heading to drop location", dot: "bg-emerald-400" },
-    completed: { label: "Ride Completed", sublabel: "Trip has ended successfully", dot: "bg-zinc-400" },
+    completed: { label: "Ride Completed", sublabel: "Trip has ended successfully", dot: "bg-muted-foreground" },
     cancelled: { label: "Ride Cancelled", sublabel: "This ride was cancelled", dot: "bg-red-400" },
     rejected: { label: "Ride Rejected", sublabel: "Ride was rejected", dot: "bg-red-400" },
-    expired: { label: "Request Expired", sublabel: "Booking timed out", dot: "bg-orange-400" },
+    expired: { label: "Request Expired", sublabel: "Booking timed out", dot: "bg-amber-400" },
 };
 
 
 const PAYMENT_BADGE: Record<PaymentStatus, { label: string; cls: string }> = {
     pending: { label: "Pending", cls: "bg-amber-100 text-amber-700" },
     paid: { label: "Paid", cls: "bg-emerald-100 text-emerald-700" },
-    cash: { label: "Cash", cls: "bg-zinc-100 text-zinc-700" },
+    cash: { label: "Cash", cls: "bg-muted text-muted-foreground" },
     failed: { label: "Failed", cls: "bg-red-100 text-red-700" },
 };
 
@@ -100,10 +100,10 @@ function page() {
 
     if (loading) {
         return (
-            <div className='h-screen w-full bg-zinc-950 flex items-center justify-center'>
+            <div className='h-screen w-full bg-background flex items-center justify-center'>
                 <div className='flex flex-col items-center gap-4'>
-                    <div className='w-12 h-12 rounded-full border-2 border-white/20 border-t-white animate-spin' />
-                    <p className='text-white/40 text-sm tracking-widest uppercase font-medium'>Loading Ride...</p>
+                    <div className='w-12 h-12 rounded-full border-2 border-border border-t-foreground animate-spin' />
+                    <p className='text-muted-foreground text-sm tracking-widest uppercase font-medium'>Loading Ride...</p>
                 </div>
             </div>)
     }
@@ -122,7 +122,7 @@ function page() {
     const paymentStatus = PAYMENT_BADGE[booking?.paymentStatus! ?? "pending"]
     const panelProps = { isActive, displayDistance, displayEta, cfg, status, booking, paymentStatus, canChat, chatOpen, onChatToggle, currentRole: "user" }
     return (
-        <div className='h-screen w-full bg-zinc-100 flex flex-col lg:flex-row overflow-hidden'>
+        <div className='h-screen w-full bg-background flex flex-col lg:flex-row overflow-hidden'>
             <div className='relative flex-1 h-full z-0'>
                 <LiveRideMap
                     driverLocation={driverPos}
@@ -143,9 +143,9 @@ function page() {
                     transition={{ delay: 0.3, duration: 0.5 }}
                     className="absolute top-4 left-1/2 -translate-x-1/2 z-[500] pointer-events-none"
                 >
-                    <div className='flex items-center gap-2 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-zinc-100'>
+                    <div className='flex items-center gap-2 bg-card/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-[var(--shadow-soft)] border border-border'>
                         <span className={`w-2 h-2 rounded-full ${cfg.dot} animate-pulse`} />
-                        <span className='text-xs font-semibold tracking-wide text-zinc-900'>{cfg.label}</span>
+                        <span className='text-xs font-semibold tracking-wide text-foreground'>{cfg.label}</span>
                     </div>
                 </motion.div>
 
@@ -156,17 +156,17 @@ function page() {
             <motion.div
                 initial={{ x: 60, opacity: 0 }} animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                className="hidden lg:flex w-[420px] xl:w-[460px] bg-white border-l border-zinc-100 flex-col overflow-hidden"
+                className="hidden lg:flex w-[420px] xl:w-[460px] bg-card border-l border-border flex-col overflow-hidden"
             >
-                <div className='bg-zinc-950 px-6 py-5 flex-shrink-0'>
-                    <p className='text-zinc-500 text-[10px] tracking-[0.2em] uppercase font-semibold mb-1'>User Panel</p>
+                <div className='bg-accent px-6 py-5 flex-shrink-0'>
+                    <p className='text-accent-foreground/50 text-[10px] tracking-[0.2em] uppercase font-semibold mb-1'>User Panel</p>
 
                     <div className='flex items-center justify-between'>
-                        <h1 className='text-white text-xl font-bold'>Active Ride</h1>
+                        <h1 className='text-accent-foreground text-xl font-bold tracking-tight'>Active Ride</h1>
                         {isActive && (
-                            <div className='flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full'>
+                            <div className='flex items-center gap-2 bg-accent-foreground/10 px-3 py-1.5 rounded-full'>
                                 <Zap size={12} className="text-amber-400" />
-                                <span className='text-white text-xs font-semibold'>{Math.round(displayEta)} min</span>
+                                <span className='text-accent-foreground text-xs font-semibold'>{Math.round(displayEta)} min</span>
                             </div>
                         )}
 
@@ -183,7 +183,7 @@ function page() {
 
             <div className='lg:hidden fixed bottom-0 left-0 right-0 z-20 pointer-events-none'>
                 <motion.div
-                    className="bg-white rounded-t-3xl shadow-2xl pointer-events-auto overflow-hidden flex flex-col"
+                    className="bg-card rounded-t-3xl shadow-[var(--shadow-elevated)] pointer-events-auto overflow-hidden flex flex-col border-t border-border"
                     animate={{ height: expanded ? "82vh" : 142 }}
                     transition={{ type: "spring", stiffness: 320, damping: 38 }}
                 >
@@ -193,35 +193,35 @@ function page() {
 
                     >
                         <div className='pt-3 pb-1'>
-                            <div className='w-10 h-1 bg-zinc-200 rounded-full mx-auto' />
+                            <div className='w-10 h-1 bg-border-strong rounded-full mx-auto' />
                         </div>
 
                         <div className='px-5 py-3 flex items-center justify-between'>
                             <div className='flex items-center gap-3'>
                                 <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${cfg.dot}`} />
                                 <div>
-                                    <p className='text-sm font-bold text-zinc-900 leading-tight'>{cfg.label}</p>
-                                    <p className='text-xs text-zinc-400 leading-tight'>{cfg.sublabel}</p>
+                                    <p className='text-sm font-bold text-foreground leading-tight'>{cfg.label}</p>
+                                    <p className='text-xs text-muted-foreground leading-tight'>{cfg.sublabel}</p>
                                 </div>
                             </div>
                             <div className='flex items-center gap-3'>
                                 {isActive && (
                                     <div className='text-right'>
-                                        <p className='text-2xl font-black text-zinc-900 leading-none'>{Math.round(displayEta)}</p>
-                                        <p className='text-[10px] text-zinc-400 uppercase tracking-wider'>min</p>
+                                        <p className='text-2xl font-black text-foreground leading-none'>{Math.round(displayEta)}</p>
+                                        <p className='text-[10px] text-muted-foreground uppercase tracking-wider'>min</p>
                                     </div>
                                 )}
                                 <motion.div
                                     animate={{ rotate: expanded ? 180 : 0 }} 
                                     transition={{ duration: 0.28 }}
-                                    className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center"
+                                    className="w-8 h-8 rounded-full bg-muted flex items-center justify-center"
                                 >
-                                    <ChevronUp size={16} className="text-zinc-600"/>
+                                    <ChevronUp size={16} className="text-muted-foreground"/>
 
                                 </motion.div>
                             </div>
                         </div>
-                  <div className='h-px bg-zinc-100 mx-5'/>
+                  <div className='h-px bg-border mx-5'/>
 
                     </div>
 

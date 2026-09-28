@@ -3,18 +3,18 @@ import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from "motion/react"
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import AuthModal from './AuthModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
-import { Bike, Car, ChevronRight, LogOut, Menu, Truck, X } from 'lucide-react'
+import { Bike, Car, ChevronRight, LogOut, Truck } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import { setUserData } from '@/redux/userSlice'
 import axios from 'axios'
 import { getSocket } from '@/lib/socket'
+import ThemeToggle from './ThemeToggle'
 
 function Nav() {
-    const pathName = usePathname()
     const [authOpen, setAuthOpen] = useState(false)
     const [profileOpen, setProfileOpen] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
@@ -60,21 +60,22 @@ function Nav() {
                 animate={{ y: 0, opacity: 1 }}
                 className={`fixed top-3 left-1/2 -translate-x-1/2
         w-[94%] md:w-[86%]
-        z-50 rounded-full bg-[#0B0B0B] text-white
-        shadow-[0_15px_50px_rgba(0,0,0,0.7)] py-3`}
+        z-50 rounded-full bg-nav text-nav-foreground
+        border border-white/10 backdrop-blur-xl
+        shadow-[var(--shadow-nav)] py-3`}
             >
                 <div className='max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between'>
-                    <Image src={"/logo.png"} alt='logo' width={44} height={44} priority />
+                    <Image src={"/logo.png"} alt='logo' width={44} height={44} priority className="rounded-full" />
                     <div className='hidden md:flex items-center gap-10'>
 
                         {userData?.role == "partner" ? (
                             <>
-                                <Link className="relative text-sm font-medium text-gray-300 hover:text-white transition" href={"/"}>Home</Link>
-                                <Link className="relative text-sm font-medium text-gray-300 hover:text-white transition" href={"/partner/pending-requests"}>Pending Requests
-                                <span className="absolute -top-2 -right-5 w-6 h-6 bg-white text-black text-xs rounded-full flex items-center justify-center font-bold">{pendingCount ?? 0}</span>
+                                <Link className="relative text-sm font-medium tracking-wide text-white/70 hover:text-white transition-colors duration-200" href={"/"}>Home</Link>
+                                <Link className="relative text-sm font-medium tracking-wide text-white/70 hover:text-white transition-colors duration-200" href={"/partner/pending-requests"}>Pending Requests
+                                <span className="absolute -top-2 -right-5 w-6 h-6 bg-white text-black text-xs rounded-full flex items-center justify-center font-bold shadow-sm">{pendingCount ?? 0}</span>
                                 </Link>
-                                <Link className="relative text-sm font-medium text-gray-300 hover:text-white transition" href={"/partner/bookings"}>Bookings</Link>
-                                <Link className="relative text-sm font-medium text-gray-300 hover:text-white transition" href={"/partner/active-ride"}>Active Ride</Link>
+                                <Link className="relative text-sm font-medium tracking-wide text-white/70 hover:text-white transition-colors duration-200" href={"/partner/bookings"}>Bookings</Link>
+                                <Link className="relative text-sm font-medium tracking-wide text-white/70 hover:text-white transition-colors duration-200" href={"/partner/active-ride"}>Active Ride</Link>
                             </>
                         ) :
                            null
@@ -83,18 +84,19 @@ function Nav() {
 
                     </div>
 
-                    <div className='flex items-center gap-3 relative'>
+                    <div className='flex items-center gap-2.5 relative'>
+                        <ThemeToggle />
 
                         <div className='hidden md:block relative'>
                             {!userData ? (
-                                <button className='px-4 py-1.5 rounded-full bg-white text-black text-sm'
+                                <button className='px-5 py-1.5 rounded-full bg-white text-black text-sm font-semibold tracking-wide shadow-sm transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]'
                                     onClick={() => setAuthOpen(true)}
                                 >
                                     Login
                                 </button>
                             ) : (
                                 <>
-                                    <button className='w-11 h-11 rounded-full bg-white text-black font-bold' onClick={() => setProfileOpen(p => !p)}>
+                                    <button className='w-11 h-11 rounded-full bg-white text-black font-bold shadow-sm transition-transform duration-200 hover:scale-[1.03]' onClick={() => setProfileOpen(p => !p)}>
                                         {userData.name.charAt(0).toUpperCase()}
                                     </button>
 
@@ -104,13 +106,13 @@ function Nav() {
                                                 initial={{ opacity: 0, y: -10 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 exit={{ opacity: 0, y: -10 }}
-                                                className="absolute top-14 right-0 w-300px bg-white text-black rounded-2xl shadow-xl border"
+                                                className="absolute top-14 right-0 min-w-[280px] bg-card text-card-foreground rounded-2xl shadow-[var(--shadow-elevated)] border border-border overflow-hidden"
                                             >
                                                 <div className='p-5'>
-                                                    <p className='font-semibold text-lg'>{userData.name}</p>
-                                                    <p className='text-xs uppercase text-gray-500 mb-4'>{userData.role}</p>
+                                                    <p className='font-semibold text-lg tracking-tight'>{userData.name}</p>
+                                                    <p className='text-xs uppercase tracking-[0.14em] text-muted-foreground mb-4'>{userData.role}</p>
                        {userData.role != "partner" && (
-                                                        <div className='w-full flex items-center gap-3 pl-3 pb-3 pt-3 hover:bg-gray-100 rounded-xl' onClick={() => router.push("/user/bookings")}>
+                                                        <div className='w-full flex items-center gap-3 pl-3 pb-3 pt-3 hover:bg-muted rounded-xl transition-colors cursor-pointer' onClick={() => router.push("/user/bookings")}>
                                                             Bookings
                                                             <ChevronRight size={16} className='ml-auto' />
                                                         </div>
@@ -118,11 +120,11 @@ function Nav() {
                                                     }
 
                                                     {userData.role != "partner" && (
-                                                        <div className='w-full flex items-center gap-3 py-3 hover:bg-gray-100 rounded-xl' onClick={() => router.push("/partner/onboarding/vehicle")}>
+                                                        <div className='w-full flex items-center gap-3 py-3 hover:bg-muted rounded-xl transition-colors cursor-pointer' onClick={() => router.push("/partner/onboarding/vehicle")}>
                                                             <div className='flex -space-x-2'>
-                                                                <div className='w-6 h-6 rounded-full bg-black text-white flex items-center justify-center'> <Bike size={14} /></div>
-                                                                <div className='w-6 h-6 rounded-full bg-black text-white flex items-center justify-center'><Car size={14} /></div>
-                                                                <div className='w-6 h-6 rounded-full bg-black text-white flex items-center justify-center'><Truck size={14} /></div>
+                                                                <div className='w-6 h-6 rounded-full bg-accent text-accent-foreground flex items-center justify-center'> <Bike size={14} /></div>
+                                                                <div className='w-6 h-6 rounded-full bg-accent text-accent-foreground flex items-center justify-center'><Car size={14} /></div>
+                                                                <div className='w-6 h-6 rounded-full bg-accent text-accent-foreground flex items-center justify-center'><Truck size={14} /></div>
 
                                                             </div>
                                                             Become a Partner
@@ -130,7 +132,7 @@ function Nav() {
                                                         </div>
                                                     )
                                                     }
-                                                    <button className='w-full flex items-center gap-3 py-3 hover:bg-gray-100 rounded-xl mt-2' onClick={handleLogOut}>
+                                                    <button className='w-full flex items-center gap-3 py-3 hover:bg-muted rounded-xl mt-2 transition-colors' onClick={handleLogOut}>
                                                         <LogOut size={16} />
                                                         Logout
                                                     </button>
@@ -150,7 +152,7 @@ function Nav() {
 
                         <div className='md:hidden '>
                             {!userData ? (
-                                <button className='px-4 py-1.5 rounded-full bg-white text-black text-sm'
+                                <button className='px-4 py-1.5 rounded-full bg-white text-black text-sm font-semibold tracking-wide'
                                     onClick={() => setAuthOpen(true)}
                                 >
                                     Login
@@ -194,25 +196,25 @@ function Nav() {
                             animate={{ y: 0 }}
                             exit={{ y: 400 }}
                             transition={{ type: "spring", damping: 25 }}
-                            className="fixed inset-x-0 bottom-0 bg-white rounded-t-3xl shadow-2xl z-50 md:hidden"
+                            className="fixed inset-x-0 bottom-0 bg-card text-card-foreground rounded-t-3xl shadow-[var(--shadow-elevated)] border-t border-border z-50 md:hidden"
                         >
                             <div className='p-5'>
-                                <p className='font-semibold text-lg'>{userData.name}</p>
-                                <p className='text-xs uppercase text-gray-500 mb-4'>{userData.role}</p>
+                                <p className='font-semibold text-lg tracking-tight'>{userData.name}</p>
+                                <p className='text-xs uppercase tracking-[0.14em] text-muted-foreground mb-4'>{userData.role}</p>
 
                                  {userData.role != "partner" && (
-                                    <div className='w-full flex items-center gap-3 pt-3 pb-3 pl-3 py-0 hover:bg-gray-100 rounded-xl' onClick={() => router.push("/user/bookings")}>
+                                    <div className='w-full flex items-center gap-3 pt-3 pb-3 pl-3 py-0 hover:bg-muted rounded-xl transition-colors cursor-pointer' onClick={() => router.push("/user/bookings")}>
                                      Bookings
                                         <ChevronRight size={16} className='ml-auto' />
                                     </div>
                                 )
                                 }
                                 {userData.role != "partner" && (
-                                    <div className='w-full flex items-center gap-3 py-3 hover:bg-gray-100 rounded-xl' onClick={() => router.push("/partner/onboarding/vehicle")}>
+                                    <div className='w-full flex items-center gap-3 py-3 hover:bg-muted rounded-xl transition-colors cursor-pointer' onClick={() => router.push("/partner/onboarding/vehicle")}>
                                         <div className='flex -space-x-2'>
-                                            <div className='w-6 h-6 rounded-full bg-black text-white flex items-center justify-center'> <Bike size={14} /></div>
-                                            <div className='w-6 h-6 rounded-full bg-black text-white flex items-center justify-center'><Car size={14} /></div>
-                                            <div className='w-6 h-6 rounded-full bg-black text-white flex items-center justify-center'><Truck size={14} /></div>
+                                            <div className='w-6 h-6 rounded-full bg-accent text-accent-foreground flex items-center justify-center'> <Bike size={14} /></div>
+                                            <div className='w-6 h-6 rounded-full bg-accent text-accent-foreground flex items-center justify-center'><Car size={14} /></div>
+                                            <div className='w-6 h-6 rounded-full bg-accent text-accent-foreground flex items-center justify-center'><Truck size={14} /></div>
 
                                         </div>
                                         Become a Partner
@@ -223,17 +225,17 @@ function Nav() {
 
                                  {userData.role=="partner" && (
                                   <div className='flex flex-col gap-4'>
-                                   <Link className="relative text-sm font-medium text-black hover:text-gray-500 transition flex items-center gap-2" href={"/partner/pending-requests"}><span>Pending Requests</span>
-                                <span className="w-6 h-6 bg-black text-white text-xs rounded-full flex items-center justify-center font-bold">{pendingCount ?? 0}</span>
+                                   <Link className="relative text-sm font-medium text-foreground hover:text-muted-foreground transition flex items-center gap-2" href={"/partner/pending-requests"}><span>Pending Requests</span>
+                                <span className="w-6 h-6 bg-accent text-accent-foreground text-xs rounded-full flex items-center justify-center font-bold">{pendingCount ?? 0}</span>
                                 </Link>
-                                <Link className="relative text-sm font-medium text-black hover:text-gray-500 transition" href={"/partner/bookings"}>Bookings</Link>
-                                <Link className="relative text-sm font-medium text-black hover:text-gray-500 transition" href={"/partner/active-ride"}>Active Ride</Link>
+                                <Link className="relative text-sm font-medium text-foreground hover:text-muted-foreground transition" href={"/partner/bookings"}>Bookings</Link>
+                                <Link className="relative text-sm font-medium text-foreground hover:text-muted-foreground transition" href={"/partner/active-ride"}>Active Ride</Link>
                                   </div>
                                  )}
 
 
 
-                                <button className='w-full flex items-center gap-3 py-3 hover:bg-gray-100 rounded-xl mt-2' onClick={handleLogOut}>
+                                <button className='w-full flex items-center gap-3 py-3 hover:bg-muted rounded-xl mt-2 transition-colors' onClick={handleLogOut}>
                                     <LogOut size={16} />
                                     Logout
                                 </button>

@@ -4,6 +4,7 @@ import { motion } from "motion/react"
 import { ArrowLeft, CircleDashed, FileCheck, UploadCloud } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import ThemeToggle from '@/components/ThemeToggle'
 
 type docsType="aadhar"|"license"|"rc"
 function page() {
@@ -51,26 +52,29 @@ setDocs((prev)=>({...prev,[doc]:file}))
 
   const isCompleted=docs.aadhar && docs.license && docs.rc
   return (
-    <div className='min-h-screen bg-white flex items-center justify-center px-4'>
+    <div className='min-h-screen bg-background flex items-center justify-center px-4'>
+      <div className='fixed top-4 right-4 z-50'>
+        <ThemeToggle variant="onLight" />
+      </div>
       <motion.div
         initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-xl bg-white rounded-3xl border border-gray-200 shadow-[0_25px_70px_rgba(0,0,0,0.15)] p-6 sm:p-8"
+        className="w-full max-w-xl bg-card text-card-foreground rounded-3xl border border-border shadow-[var(--shadow-elevated)] p-6 sm:p-8"
       >
         <div className='relative text-center'>
-          <button className='absolute left-0 top-0 w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition'
+          <button className='absolute left-0 top-0 w-9 h-9 rounded-full border border-border flex items-center justify-center hover:bg-muted transition-colors text-foreground'
             onClick={() => router.back()}
           ><ArrowLeft size={18} /></button>
 
-          <p className='text-xs text-gray-500 font-medium'>
+          <p className='text-xs text-muted-foreground font-medium tracking-wide'>
             step 2 of 3
           </p>
 
-          <h1 className='text-2xl font-bold mt-1'>
+          <h1 className='text-2xl font-bold mt-1 tracking-tight text-foreground'>
             Upload Documents
           </h1>
-          <p className='text-sm text-gray-500 mt-2'>
+          <p className='text-sm text-muted-foreground mt-2'>
             Required for verification
           </p>
 
@@ -79,19 +83,19 @@ setDocs((prev)=>({...prev,[doc]:file}))
         <div className='mt-8 space-y-5'>
           <motion.label
           whileHover={{ scale: 1.02 }}
-      className="flex items-center justify-between p-4 rounded-2xl border border-gray-200 cursor-pointer hover:border-black transition"
+      className="flex items-center justify-between p-4 rounded-2xl border border-border cursor-pointer hover:border-border-strong transition-colors"
           >
             <div>
-<p className='text-sm font-semibold'>Aadhaar / ID Proof</p>
-<p className='text-xs text-gray-500'>Government issued ID</p>
+<p className='text-sm font-semibold text-foreground'>Aadhaar / ID Proof</p>
+<p className='text-xs text-muted-foreground'>Government issued ID</p>
             </div>
            
     {docs.aadhar ? 
     <span className='text-xs text-green-600 font-medium'>Uploaded</span>
     :
     <div>
-      <span className='text-xs text-gray-400'>Upload</span>
-      <div className='w-10 h-10 rounded-full bg-black text-white flex items-center justify-center'><UploadCloud size={18}/></div>
+      <span className='text-xs text-muted-foreground'>Upload</span>
+      <div className='w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center'><UploadCloud size={18}/></div>
             </div>}          
 
 
@@ -101,35 +105,35 @@ setDocs((prev)=>({...prev,[doc]:file}))
 
            <motion.label
           whileHover={{ scale: 1.02 }}
-      className="flex items-center justify-between p-4 rounded-2xl border border-gray-200 cursor-pointer hover:border-black transition"
+      className="flex items-center justify-between p-4 rounded-2xl border border-border cursor-pointer hover:border-border-strong transition-colors"
           >
             <div>
-<p className='text-sm font-semibold'>Driving License</p>
-<p className='text-xs text-gray-500'>Valid driving license</p>
+<p className='text-sm font-semibold text-foreground'>Driving License</p>
+<p className='text-xs text-muted-foreground'>Valid driving license</p>
             </div>
             {docs.license ? 
     <span className='text-xs text-green-600 font-medium'>Uploaded</span>
     :
     <div>
-      <span className='text-xs text-gray-400'>Upload</span>
-      <div className='w-10 h-10 rounded-full bg-black text-white flex items-center justify-center'><UploadCloud size={18}/></div>
+      <span className='text-xs text-muted-foreground'>Upload</span>
+      <div className='w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center'><UploadCloud size={18}/></div>
             </div>}     
  <input type='file' hidden accept='image/*,.pdf' onChange={(e)=>handleImage("license",e.target?.files?.[0] || null)}/>
           </motion.label>
            <motion.label
           whileHover={{ scale: 1.02 }}
-      className="flex items-center justify-between p-4 rounded-2xl border border-gray-200 cursor-pointer hover:border-black transition"
+      className="flex items-center justify-between p-4 rounded-2xl border border-border cursor-pointer hover:border-border-strong transition-colors"
           >
             <div>
-<p className='text-sm font-semibold'>Vehicle RC</p>
-<p className='text-xs text-gray-500'>Registration Certificate</p>
+<p className='text-sm font-semibold text-foreground'>Vehicle RC</p>
+<p className='text-xs text-muted-foreground'>Registration Certificate</p>
             </div>
             {docs.rc ? 
     <span className='text-xs text-green-600 font-medium'>Uploaded</span>
     :
     <div>
-      <span className='text-xs text-gray-400'>Upload</span>
-      <div className='w-10 h-10 rounded-full bg-black text-white flex items-center justify-center'><UploadCloud size={18}/></div>
+      <span className='text-xs text-muted-foreground'>Upload</span>
+      <div className='w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center'><UploadCloud size={18}/></div>
             </div>}     
  <input type='file' hidden accept='image/*,.pdf' onChange={(e)=>handleImage("rc",e.target?.files?.[0] || null)}/>
           </motion.label>
@@ -138,7 +142,7 @@ setDocs((prev)=>({...prev,[doc]:file}))
 
         </div>
 
-        <div className='mt-6 flex items-start gap-3 text-xs text-gray-500'>
+        <div className='mt-6 flex items-start gap-3 text-xs text-muted-foreground'>
           <FileCheck size={16} className="mt-0.5"/>
           <p> Documents are securely stored and manually verified
             by our team.</p>
@@ -150,9 +154,9 @@ setDocs((prev)=>({...prev,[doc]:file}))
           whileTap={{ scale: 0.97 }}
           onClick={handleDocs}
           disabled={!isCompleted || loading}
-          className="mt-8 w-full h-14 rounded-2xl bg-black text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-40 transition"
+          className="mt-8 w-full h-14 rounded-2xl bg-accent text-accent-foreground font-semibold flex items-center justify-center gap-2 disabled:opacity-40 transition-opacity"
          >
-         {loading?<CircleDashed className='text-white animate-spin'/>: "Continue"}
+         {loading?<CircleDashed className='text-accent-foreground animate-spin'/>: "Continue"}
      
          </motion.button>
 

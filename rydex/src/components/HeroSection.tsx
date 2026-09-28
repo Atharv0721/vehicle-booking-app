@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { motion } from "motion/react"
 import { Bike, Bus, Car, Truck } from 'lucide-react'
 import { useSelector } from 'react-redux'
@@ -14,14 +14,14 @@ const router=useRouter()
     return (
         <div className='relative min-h-screen w-full overflow-hidden'>
             <div className='absolute inset-0 bg-cover bg-center' style={{ backgroundImage: "url('/heroImage.jpg')" }} />
-            <div className='absolute inset-0 bg-black/80' />
+            <div className='absolute inset-0 bg-[var(--overlay)] backdrop-blur-[1px]' />
             <div className='relative z-10 min-h-screen flex flex-col items-center justify-center px-4 text-center'>
 
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className='text-white font-extrabold text-4xl sm:text-5xl md:text-7xl'
+                    className='text-white font-extrabold text-4xl sm:text-5xl md:text-7xl tracking-tight'
                 >
                     Book Any Vehicle
                 </motion.div>
@@ -29,7 +29,7 @@ const router=useRouter()
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6 }}
-                    className='mt-4 max-w-xl text-gray-300'
+                    className='mt-4 max-w-xl text-white/70 tracking-wide text-sm sm:text-base'
                 >
                     From daily rides to heavy transport — all in one platform.
                 </motion.p>
@@ -37,7 +37,7 @@ const router=useRouter()
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
-                    className='mt-8 flex gap-8 text-gray-300'
+                    className='mt-8 flex gap-8 text-white/60'
                 >
                     <Bike size={30} />
                     <Car size={30} />
@@ -49,10 +49,13 @@ const router=useRouter()
                 <motion.button
                   whileHover={{scale:1.05}}
                   whileTap={{scale:0.95}}
-                    className=' mt-12 px-10 py-4
+                    className='mt-12 px-10 py-4
             bg-white text-black
-            rounded-full font-semibold
-            shadow-xl'
+            rounded-full font-semibold tracking-wide
+            shadow-[var(--shadow-elevated)]
+            border border-white/20
+            transition-shadow duration-300
+            hover:shadow-[0_24px_60px_rgba(0,0,0,0.45)]'
             onClick={()=>{!userData?onAuthRequired():router.push("/user/book")}}
                 >
 

@@ -46,16 +46,16 @@ function PartnerEarning() {
             value: fmt(max),
             sub: bestDay?.date ?? "—",
             icon: <Star size={14} />,
-            color: "text-violet-600",
-            bg: "bg-violet-50",
+            color: "text-purple-600 dark:text-purple-400",
+            bg: "bg-purple-50 dark:bg-purple-950/40",
         },
         {
             label: "Daily Avg",
             value: fmt(avg),
             sub: "per day",
             icon: <BarChart2 size={14} />,
-            color: "text-blue-600",
-            bg: "bg-blue-50",
+            color: "text-foreground",
+            bg: "bg-muted",
         },
         {
             label: "Today",
@@ -64,40 +64,40 @@ function PartnerEarning() {
                 ? `${deltaPositive ? "+" : ""}${fmt(delta)} vs yesterday`
                 : "—",
             icon: <Zap size={14} />,
-            color: "text-emerald-600",
-            bg: "bg-emerald-50",
+            color: "text-emerald-600 dark:text-emerald-400",
+            bg: "bg-emerald-50 dark:bg-emerald-950/40",
         },
     ];
 
 
     return (
-        <div className='bg-white rounded-3xl border border-gray-100 shadow-sm p-6 w-full'>
+        <div className='bg-card text-card-foreground rounded-3xl border border-border shadow-[var(--shadow-soft)] p-6 w-full transition-shadow'>
             <div className='flex items-start justify-between mb-6 flex-wrap gap-4'>
                 <div>
-                    <span className='inline-block text-[11px] font-semibold tracking-widest uppercase text-blue-600 bg-blue-50 px-3 py-1 rounded-full mb-2'>
+                    <span className='inline-block text-[11px] font-semibold tracking-widest uppercase text-muted-foreground bg-muted px-3 py-1 rounded-full mb-2'>
                         Partner Dashboard
                     </span>
-                    <h2 className='text-xl font-bold text-gray-900 tracking-tight'>
+                    <h2 className='text-xl font-bold text-foreground tracking-tight'>
                         Daily Earnings
                     </h2>
-                    <p className='text-sm text-gray-400 mt-0.5'>
+                    <p className='text-sm text-muted-foreground mt-0.5'>
                         Last 7 days performance
                     </p>
                 </div>
                 <div className='text-right'>
-                    <p className='text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1'>
+                    <p className='text-[11px] font-semibold text-muted-foreground uppercase tracking-widest mb-1'>
                         Weekly total
                     </p>
                     <motion.div
                         key={total}
                         initial={{ opacity: 0, y: 6 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-3xl font-bold text-gray-900 font-mono tracking-tight"
+                        className="text-3xl font-bold text-foreground font-mono tracking-tight"
                     >
                         {fmt(total)}
                     </motion.div>
 
-                    <div className={`flex items-center justify-end gap-1 text-xs font-semibold mt-1 ${deltaPositive ? "text-emerald-600" : "text-rose-500"
+                    <div className={`flex items-center justify-end gap-1 text-xs font-semibold mt-1 ${deltaPositive ? "text-emerald-600 dark:text-emerald-400" : "text-rose-500"
                         }`}>
                         {deltaPositive ? <TrendingUp size={13} /> : <TrendingDown size={13} />}
                         <span>{deltaPct}% vs yesterday</span>
@@ -112,15 +112,15 @@ function PartnerEarning() {
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.07, duration: 0.4 }}
-                        className="bg-gray-50 rounded-2xl p-4"
+                        className="bg-muted rounded-2xl p-4"
                     >
 
                         <div className={`flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider mb-2 ${m.color}`}>
                             <span className={`${m.bg} p-1 rounded-lg ${m.color}`}>{m.icon}</span>
                             {m.label}
                         </div>
-                        <p className='text-lg font-bold text-gray-900 font-mono leading-none'>{m.value}</p>
-                        <p className='text-[11px] text-gray-400 mt-1'>{m.sub}</p>
+                        <p className='text-lg font-bold text-foreground font-mono leading-none'>{m.value}</p>
+                        <p className='text-[11px] text-muted-foreground mt-1'>{m.sub}</p>
 
                     </motion.div>
                 ))}
@@ -138,16 +138,16 @@ function PartnerEarning() {
                             data={earningData}
                             barCategoryGap={"30%"}
                         >
-                            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
+                            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
                             <XAxis
                                 dataKey="date"
-                                tick={{ fontSize: 11, fill: "#9ca3af", fontWeight: 500 }}
+                                tick={{ fontSize: 11, fill: "var(--muted-foreground)", fontWeight: 500 }}
                                 axisLine={false}
                                 tickLine={false}
                             />
 
                             <YAxis
-                                tick={{ fontSize: 11, fill: "#9ca3af" }}
+                                tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
                                 axisLine={false}
                                 tickLine={false}
                                 tickFormatter={(v) => "₹" + (v >= 1000 ? (v / 1000).toFixed(0) + "k" : v)}
@@ -167,7 +167,7 @@ function PartnerEarning() {
                                                     ? "#10b981"
                                                     : isBest
                                                         ? "#8b5cf6"
-                                                        : "#bfdbfe"
+                                                        : "var(--border-strong)"
                                             }
                                         />
                                     )

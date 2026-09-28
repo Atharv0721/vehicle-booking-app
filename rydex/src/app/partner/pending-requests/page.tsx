@@ -7,6 +7,7 @@ import { Clock, IndianRupee, Loader2, MapPin, Navigation } from 'lucide-react'
 import { div } from 'motion/react-client'
 import { useRouter } from 'next/navigation'
 import { getSocket } from '@/lib/socket'
+import ThemeToggle from '@/components/ThemeToggle'
 
  interface IBooking {
     _id:string
@@ -97,22 +98,25 @@ function page() {
      }
     },[])
     return (
-        <div className='min-h-screen bg-[#f4f5f7]'>
-            <div className='bg-white border-b border-gray-200'>
+        <div className='min-h-screen bg-background text-foreground'>
+            <div className='fixed top-4 right-4 z-50'>
+                <ThemeToggle variant="onLight" />
+            </div>
+            <div className='bg-card border-b border-border'>
                 <div className='max-w-6xl mx-auto px-6 py-16'>
-                    <h1 className='text-4xl font-semibold text-gray-900'>Ride Requests</h1>
-                    <p className='mt-3 text-gray-500 text-lg'> Manage incoming ride requests and respond in real time.</p>
+                    <h1 className='text-4xl font-semibold text-foreground tracking-tight'>Ride Requests</h1>
+                    <p className='mt-3 text-muted-foreground text-lg'> Manage incoming ride requests and respond in real time.</p>
                 </div>
             </div>
 
             <div className='max-w-6xl mx-auto px-6 py-12'>
                 {loading ? (
                     <div className='flex justify-center py-20'>
-                        <Loader2 className="animate-spin w-8 h-8 text-gray-700" />
+                        <Loader2 className="animate-spin w-8 h-8 text-foreground" />
                     </div>
                 ) : bookings.length == 0 ? (
-                    <div className='bg-white rounded-2xl border border-gray-200 p-16 text-center shadow-sm'>
-                        <p className='text-gray-500 text-lg'>No pending ride requests.</p>
+                    <div className='bg-card rounded-2xl border border-border p-16 text-center shadow-[var(--shadow-soft)]'>
+                        <p className='text-muted-foreground text-lg'>No pending ride requests.</p>
                     </div>
                 ) : (
                     <div className='space-y-6'>
@@ -123,33 +127,33 @@ function page() {
                                 animate={{ opacity: 1, y: 0 }}
                                 whileHover={{ y: -2 }}
                                 transition={{ duration: 0.25 }}
-                                className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm hover:shadow-md transition"
+                                className="bg-card rounded-2xl border border-border p-8 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-elevated)] transition-shadow"
                             >
                                 <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8'>
 
                                     <div className="flex-1 space-y-6">
 
                                         <div className='flex gap-4'>
-                                            <div className='bg-gray-100 p-3 rounded-lg flex items-center justify-center'>
+                                            <div className='bg-muted p-3 rounded-lg flex items-center justify-center text-foreground'>
                                                 <MapPin size={18} />
                                             </div>
                                             <div>
-                                                <p className='text-xs uppercase text-gray-400 mb-1'>Pickup Location</p>
-                                                <p className='text-gray-900 font-medium'>{b.pickUpAddress}</p>
+                                                <p className='text-xs uppercase tracking-wider text-muted-foreground mb-1'>Pickup Location</p>
+                                                <p className='text-foreground font-medium'>{b.pickUpAddress}</p>
                                             </div>
                                         </div>
 
                                         <div className='flex gap-4'>
-                                            <div className='bg-gray-100 p-3 rounded-lg flex items-center justify-center'>
+                                            <div className='bg-muted p-3 rounded-lg flex items-center justify-center text-foreground'>
                                                 <Navigation size={18} />
                                             </div>
                                             <div>
-                                                <p className='text-xs uppercase text-gray-400 mb-1'>Drop Location</p>
-                                                <p className='text-gray-900 font-medium'>{b.dropAddress}</p>
+                                                <p className='text-xs uppercase tracking-wider text-muted-foreground mb-1'>Drop Location</p>
+                                                <p className='text-foreground font-medium'>{b.dropAddress}</p>
                                             </div>
                                         </div>
 
-                                        <div className='flex items-center gap-2 text-sm text-gray-500 mt-2'>
+                                        <div className='flex items-center gap-2 text-sm text-muted-foreground mt-2'>
                                             <Clock size={14} className="opacity-70" />
                                             <span className='font-medium'>
                                                 {new Date(b?.createdAt!).toLocaleString("en-IN", {
@@ -167,8 +171,8 @@ function page() {
                                     <div className='flex flex-col justify-between lg:items-end gap-6 w-full lg:w-auto'>
 
                                         <div className='text-left lg:text-right'>
-                                            <p className='text-xs tracking-wide text-gray-400 uppercase mb-1'>Estimated Fare</p>
-                                            <div className='flex items-center gap-2 text-3xl font-bold text-gray-900 lg:justify-end'>
+                                            <p className='text-xs tracking-wide text-muted-foreground uppercase mb-1'>Estimated Fare</p>
+                                            <div className='flex items-center gap-2 text-3xl font-bold text-foreground tracking-tight lg:justify-end'>
                                                 <IndianRupee size={20} />
                                                 {b.fare}
                                             </div>
@@ -180,11 +184,11 @@ function page() {
                                              className='flex-1 lg:flex-none
         px-6 py-3
         rounded-xl
-        border border-gray-300
-        bg-white
-        text-gray-700
+        border border-border
+        bg-card
+        text-foreground
         text-sm font-semibold
-        hover:bg-gray-100
+        hover:bg-muted
         transition-all duration-200
         active:scale-[0.98]
         disabled:opacity-50'>
@@ -195,12 +199,12 @@ function page() {
                                             className=' flex-1 lg:flex-none
         px-8 py-3
         rounded-xl
-        bg-black
-        text-white
+        bg-accent
+        text-accent-foreground
         text-sm font-semibold
-        shadow-md
-        hover:bg-gray-900
-        hover:shadow-lg
+        shadow-[var(--shadow-soft)]
+        hover:opacity-90
+        hover:shadow-[var(--shadow-elevated)]
         transition-all duration-200
         active:scale-[0.98]
         disabled:opacity-50

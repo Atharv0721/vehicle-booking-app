@@ -14,7 +14,7 @@ const session=await auth()
   const user=await User.findOne({email:session?.user?.email})
  const plainUser = JSON.parse(JSON.stringify(user))
   return (
-   <div className="w-full min-h-screen bg-white">
+   <div className="w-full min-h-screen bg-background text-foreground">
     <GeoUpdater userId={plainUser?._id}/>
     {plainUser?.role=="partner"
     ?

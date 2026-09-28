@@ -72,21 +72,21 @@ function PartnerDashboard() {
 
     const progressPercentage = ((activeStep - 1) / (TOTAL_STEPS - 1)) * 100
     return (
-        <div className='min-h-screen bg-linear-to-br from-gray-100 to-gray-200 px-4 pt-28 pb-20'>
+        <div className='min-h-screen bg-background px-4 pt-28 pb-20'>
             <div className='max-w-7xl mx-auto space-y-16'>
                 <div>
-                    <h1 className='text-4xl font-bold'>Partner Onboarding</h1>
-                    <p className='text-gray-600 mt-3'>Complete all steps to activate your account</p>
+                    <h1 className='text-4xl font-bold tracking-tight text-foreground'>Partner Onboarding</h1>
+                    <p className='text-muted-foreground mt-3'>Complete all steps to activate your account</p>
                 </div>
 
-                <div className='bg-white rounded-3xl p-10 shadow-xl border overflow-x-auto'>
+                <div className='bg-card rounded-3xl p-10 shadow-[var(--shadow-elevated)] border border-border overflow-x-auto transition-shadow'>
                     <div className='relative min-w-[800px]'>
 
-                        <div className='absolute top-7 left-0 w-full h-[3px] bg-gray-200 rounded-full' />
+                        <div className='absolute top-7 left-0 w-full h-[3px] bg-muted rounded-full' />
                         <motion.div
                             animate={{ width: `${progressPercentage}%` }}
                             transition={{ duration: 0.6 }}
-                            className="absolute top-7 left-0 h-[3px] bg-black rounded-full"
+                            className="absolute top-7 left-0 h-[3px] bg-accent rounded-full"
                         />
                         <div className='relative flex justify-between'>
                             {STEPS.map((s, index) => {
@@ -102,12 +102,12 @@ function PartnerDashboard() {
                                         className="flex flex-col items-center z-10 cursor-pointer"
                                     >
                                         <div
-                                            className={`w-14 h-14 rounded-full flex items-center justify-center border-2 transition-all
+                                            className={`w-14 h-14 rounded-full flex items-center justify-center border-2 transition-all duration-300
                                                      ${completed
-                                                    ? "bg-black text-white border-black"
+                                                    ? "bg-accent text-accent-foreground border-accent"
                                                     : active
-                                                        ? "border-black bg-white"
-                                                        : "border-gray-300 text-gray-400 bg-white"
+                                                        ? "border-accent bg-card text-foreground"
+                                                        : "border-border text-muted-foreground bg-card"
                                                 }`}
                                         >
                                             {
@@ -121,7 +121,7 @@ function PartnerDashboard() {
                                             }
 
                                         </div>
-                                        <p className='mt-3 text-sm font-semibold text-center'>{s.title}</p>
+                                        <p className='mt-3 text-sm font-semibold text-center text-foreground tracking-tight'>{s.title}</p>
 
                                     </motion.div>
                                 )
@@ -218,13 +218,13 @@ function PartnerDashboard() {
     <motion.div
     initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-black text-white rounded-3xl p-10 shadow-2xl"
+        className="bg-accent text-accent-foreground rounded-3xl p-10 shadow-[var(--shadow-elevated)]"
     >
-        <h2 className='text-2xl font-bold'>
+        <h2 className='text-2xl font-bold tracking-tight'>
             🚀 You're Live
         </h2>
 
-        <button className='mt-6 bg-white text-black px-6 py-3 rounded-xl font-semibold flex items-center gap-2'>
+        <button className='mt-6 bg-card text-card-foreground px-6 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all hover:opacity-90'>
          Go to Bookings <ArrowRight size={16}/>
         </button>
 

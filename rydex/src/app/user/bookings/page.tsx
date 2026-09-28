@@ -8,6 +8,7 @@ import { div } from 'motion/react-client'
 import React, { useEffect, useState } from 'react'
 import { motion } from "motion/react"
 import { useRouter } from 'next/navigation'
+import ThemeToggle from '@/components/ThemeToggle'
 interface IBooking {
 _id:string
     user: IUser
@@ -83,24 +84,24 @@ function page() {
             awaiting_payment: "bg-blue-50 text-blue-700 border-blue-200",
             cancelled: "bg-rose-50 text-rose-700 border-rose-200",
             rejected: "bg-red-50 text-red-700 border-red-200",
-            expired: "bg-gray-50 text-gray-700 border-gray-200",
+            expired: "bg-muted text-muted-foreground border-border",
         };
-        return colors[status] || "bg-gray-50 text-gray-700 border-gray-200";
+        return colors[status] || "bg-muted text-muted-foreground border-border";
     };
 
 
     const getVehicleIcon = (vehicleType?: string) => {
         switch (vehicleType?.toLowerCase()) {
             case 'bike':
-                return <Bike className="w-4 h-4 text-gray-400" />;
+                return <Bike className="w-4 h-4 text-muted-foreground" />;
             case 'auto':
-                return <Car className="w-4 h-4 text-gray-400" />; // You can add Auto icon if available
+                return <Car className="w-4 h-4 text-muted-foreground" />; // You can add Auto icon if available
             case 'truck':
-                return <Truck className="w-4 h-4 text-gray-400" />;
+                return <Truck className="w-4 h-4 text-muted-foreground" />;
             case 'loading':
             case 'car':
             default:
-                return <Car className="w-4 h-4 text-gray-400" />;
+                return <Car className="w-4 h-4 text-muted-foreground" />;
         }
     };
 
@@ -110,18 +111,19 @@ function page() {
         : bookings.filter(b => b.bookingStatus === selectStatus.toLowerCase());
 
     return (
-        <div className='min-h-screen bg-gray-50'>
+        <div className='min-h-screen bg-background text-foreground'>
+            <ThemeToggle variant="onLight" className="fixed top-5 right-5 z-50" />
 
-            <div className='bg-white border-b border-gray-200'>
+            <div className='bg-card border-b border-border'>
                 <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
                     <div className='max-w-3xl mx-auto py-6'>
                         <div className='flex items-center gap-3'>
-                            <div className='bg-blue-100 p-2 rounded-lg'>
-                                <Car className="w-5 h-5 text-blue-600" />
+                            <div className='bg-muted p-2 rounded-2xl border border-border'>
+                                <Car className="w-5 h-5 text-foreground" />
                             </div>
                             <div>
-                                <h1 className='text-2xl font-semibold text-gray-900'>My Bookings</h1>
-                                <p className='text-gray-500 text-sm mt-1'> {bookings.length} {bookings.length === 1 ? 'ride' : 'rides'} assigned to you</p>
+                                <h1 className='text-2xl font-semibold text-foreground tracking-tight'>My Bookings</h1>
+                                <p className='text-muted-foreground text-sm mt-1'> {bookings.length} {bookings.length === 1 ? 'ride' : 'rides'} assigned to you</p>
                             </div>
                         </div>
                     </div>
@@ -132,13 +134,13 @@ function page() {
                 <div className='max-w-3xl mx-auto'>
 
                     <div className='flex justify-between items-center mb-6'>
-                        <div className='text-sm text-gray-500'>
+                        <div className='text-sm text-muted-foreground'>
                             Showing {filterBookings.length} bookings
                         </div>
                         <select
                             value={selectStatus}
                             onChange={(e) => setSelectStatus(e.target.value)}
-                            className='bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                            className='bg-card border border-border rounded-xl px-3 py-1.5 text-sm text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[var(--ring)] transition-colors'
                         >
                             <option>All</option>
                             <option>requested</option>
@@ -155,15 +157,15 @@ function page() {
 
                     {loading && (
                         <div className='flex justify-center py-16'>
-                            <Loader2 className='animate-spin w-8 h-8 text-black' />
+                            <Loader2 className='animate-spin w-8 h-8 text-foreground' />
                         </div>
                     )}
 
                     {!loading && filterBookings.length === 0 && (
-                        <div className="bg-white rounded-xl shadow-sm p-12 text-center">
-                            <Car className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                            <h1 className='text-lg font-medium text-gray-900'>No bookings yet</h1>
-                            <p className='text-gray-500 text-sm mt-1'>When customers book rides, they'll appear here</p>
+                        <div className="bg-card rounded-2xl border border-border shadow-[var(--shadow-soft)] p-12 text-center">
+                            <Car className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+                            <h1 className='text-lg font-medium text-foreground'>No bookings yet</h1>
+                            <p className='text-muted-foreground text-sm mt-1'>When customers book rides, they'll appear here</p>
                         </div>
                     )}
 
@@ -176,21 +178,21 @@ function page() {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: i * 0.05 }}
                                 >
-                                    <div className='bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all overflow-hidden'>
-                                        <div className='flex items-center gap-3 p-4 bg-linear-to-r from-blue-50 to-indigo-50 border-b border-gray-20'>
-                                            <div className='w-12 h-12 rounded-full overflow-hidden bg-blue-200 flex-shrink-0 border-2 border-white shadow-sm flex items-center justify-center'>
-                                                <User className="w-6 h-6 text-blue-600" />
+                                    <div className='bg-card rounded-2xl border border-border shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-elevated)] transition-all overflow-hidden'>
+                                        <div className='flex items-center gap-3 p-4 bg-muted border-b border-border'>
+                                            <div className='w-12 h-12 rounded-full overflow-hidden bg-border flex-shrink-0 border-2 border-card shadow-[var(--shadow-soft)] flex items-center justify-center'>
+                                                <User className="w-6 h-6 text-muted-foreground" />
                                             </div>
                                             <div className='flex-1'>
                                                 <div className='flex items-center justify-between'>
-                                                    <h3 className='font-semibold text-gray-900'>{b.driver.name.toUpperCase() || "Driver"}</h3>
+                                                    <h3 className='font-semibold text-foreground'>{b.driver.name.toUpperCase() || "Driver"}</h3>
                                                     <span
-                                                        className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(b.bookingStatus)}`}
+                                                        className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(b.bookingStatus)}`}
                                                     >
                                                         {b.bookingStatus || "-"}
                                                     </span>
                                                 </div>
-                                                <div className="flex items-center gap-1 mt-1 text-xs text-gray-600">
+                                                <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
                                                     <Phone className="w-3 h-3" />
                                                     <span>{b.driverMobileNumber}</span>
                                                 </div>
@@ -199,9 +201,9 @@ function page() {
                                         </div>
 
                                         <div className='px-4 pt-3'>
-                                            <div className='bg-gray-50 rounded-lg p-2 flex items-center gap-2'>
+                                            <div className='bg-muted rounded-xl p-2 flex items-center gap-2 border border-border'>
                                                 {getVehicleIcon(b.vehicle.type)}
-                                                <div className='text-xs text-gray-600'>
+                                                <div className='text-xs text-muted-foreground'>
                                                     {b.vehicle.vehicleModel} • {b.vehicle.number || "Not assigned"}
                                                 </div>
 
@@ -215,7 +217,7 @@ function page() {
                                                 </div>
                                                 <div className='flex-1'>
                                                     <span className="text-xs font-medium text-green-600 uppercase tracking-wider">PICK UP</span>
-                                                    <p className='text-sm text-gray-700 mt-0.5 leading-relaxed'>
+                                                    <p className='text-sm text-card-foreground mt-0.5 leading-relaxed'>
                                                         {b.pickUpAddress}
                                                     </p>
                                                 </div>
@@ -226,27 +228,27 @@ function page() {
                                                 </div>
                                                 <div className='flex-1'>
                                                     <span className="text-xs font-medium text-red-600 uppercase tracking-wider">DROP</span>
-                                                    <p className='text-sm text-gray-700 mt-0.5 leading-relaxed'>
+                                                    <p className='text-sm text-card-foreground mt-0.5 leading-relaxed'>
                                                         {b.dropAddress}
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div className='flex items-center justify-between px-4 py-3 bg-gray-50 border-t border-gray-200'>
-                                            <div className='flex items-center gap-2 text-sm text-gray-600'>
-                                                <Calendar className="w-4 h-4 text-gray-400" />
+                                        <div className='flex items-center justify-between px-4 py-3 bg-muted border-t border-border'>
+                                            <div className='flex items-center gap-2 text-sm text-muted-foreground'>
+                                                <Calendar className="w-4 h-4 text-muted-foreground" />
                                                 <span>{formatDate(b.createdAt?.toString()!)}</span>
                                             </div>
-                                            <div className="flex items-center gap-1 font-semibold text-gray-900">
+                                            <div className="flex items-center gap-1 font-semibold text-foreground">
                                                 <IndianRupee className="w-4 h-4" />
                                                 <span>{b.fare}</span>
                                             </div>
                                         </div>
 
-                                        <div className='flex items-center justify-between px-4 py-3 border-t border-gray-200'>
+                                        <div className='flex items-center justify-between px-4 py-3 border-t border-border'>
                                             <div className='flex items-center gap-2'>
-                                                <span className='text-xs text-gray-500'>Payment:</span>
+                                                <span className='text-xs text-muted-foreground'>Payment:</span>
                                                 <span className={`text-xs px-2 py-1 rounded-full ${b.paymentStatus === 'paid'
                                                     ? 'bg-green-100 text-green-700'
                                                     : 'bg-yellow-100 text-yellow-700'
@@ -257,7 +259,7 @@ function page() {
                                             <div className='flex items-center gap-2'>
                                                 <button
                                             onClick={()=>router.push(`/user/ride/${b._id}`)}
-                                                    className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-4 py-1.5 rounded-lg transition-colors"
+                                                    className="flex items-center gap-1 text-sm font-medium text-accent-foreground bg-accent hover:opacity-90 px-4 py-1.5 rounded-xl transition-all"
                                                 >
                                                     <span>Details</span>
                                                     <ChevronRightIcon className="w-4 h-4"/>

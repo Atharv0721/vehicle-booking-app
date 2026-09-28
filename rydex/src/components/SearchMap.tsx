@@ -170,7 +170,7 @@ function SearchMap({ pickUp, drop, onChange, onDistance }: props) {
 
 
   return (
-    <div className='relative h-full w-full bg-zinc-100'>
+    <div className='relative h-full w-full bg-muted'>
       <MapContainer
         style={{ width: "100%", height: "100%" }}
         center={p1 ?? [0, 0]}
@@ -224,24 +224,24 @@ function SearchMap({ pickUp, drop, onChange, onDistance }: props) {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.45 }}
-            className="absolute inset-0 z-[999] bg-white/90 backdrop-blur-md flex flex-col items-center justify-center gap-4"
+            className="absolute inset-0 z-[999] bg-card/90 backdrop-blur-md flex flex-col items-center justify-center gap-4"
           >
             <div className='relative w-14 h-14 flex items-center justify-center'>
               <motion.div
                animate={{ rotate: 360 }}
                 transition={{ duration: 1.1, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 rounded-full border-2 border-transparent border-t-zinc-900"
+                className="absolute inset-0 rounded-full border-2 border-transparent border-t-foreground"
               />
                <motion.div
                 animate={{ rotate: -360 }}
                 transition={{ duration: 1.8, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-2 rounded-full border border-transparent border-t-zinc-300"
+                className="absolute inset-2 rounded-full border border-transparent border-t-border-strong"
                />
-               <MapPin  size={15} className="text-zinc-800" />
+               <MapPin  size={15} className="text-foreground" />
             </div>
             <div className='text-center'>
-              <p className='text-zinc-900 text-xs font-black tracking-[0.22em] uppercase'>Loading Map</p>
-              <p className='text-zinc-400 text-[10px] font-medium tracking-wider mt-0.5'>Plotting your route…</p>
+              <p className='text-foreground text-xs font-black tracking-[0.22em] uppercase'>Loading Map</p>
+              <p className='text-muted-foreground text-[10px] font-medium tracking-wider mt-0.5'>Plotting your route…</p>
             </div>
 
           </motion.div>
@@ -256,12 +256,12 @@ function SearchMap({ pickUp, drop, onChange, onDistance }: props) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute bottom-20 left-4 z-[500] flex items-center gap-2 bg-white border border-zinc-200 px-3.5 py-2 rounded-xl shadow-lg"
+            className="absolute bottom-20 left-4 z-[500] flex items-center gap-2 bg-card border border-border px-3.5 py-2 rounded-xl shadow-[var(--shadow-elevated)]"
           >
-            <Navigation2 size={13} className="text-zinc-900"/>
-            <span className='text-zinc-900 text-xs font-bold'>{km} km</span>
-            <span className='w-px h-3 bg-zinc-200'/>
-            <span> ~{Math.max(3, Math.round((km / 25) * 60))} min</span>
+            <Navigation2 size={13} className="text-foreground"/>
+            <span className='text-foreground text-xs font-bold'>{km} km</span>
+            <span className='w-px h-3 bg-border'/>
+            <span className='text-muted-foreground text-xs'> ~{Math.max(3, Math.round((km / 25) * 60))} min</span>
 
           </motion.div>
         )}

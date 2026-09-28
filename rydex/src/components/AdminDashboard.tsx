@@ -9,6 +9,7 @@ import { AnimatePresence } from 'motion/react'
 import { motion } from "motion/react"
 import ContentList from './ContentList'
 import AdminEarning from './AdminEarning'
+import ThemeToggle from '@/components/ThemeToggle'
 type Stats = {
   totalApprovedPartners: number
   totalPartners: number
@@ -47,17 +48,20 @@ function AdminDashboard() {
     handleGetData()
   }, [])
   return (
-    <div className='min-h-screen bg-linear-to-br from-gray-100 to-gray-200'>
-      <div className='sticky top-0 bg-white/80 backdrop-blur-lg border-b z-40'>
+    <div className='min-h-screen bg-background text-foreground'>
+      <div className='sticky top-0 bg-card/80 backdrop-blur-lg border-b border-border z-40'>
         <div className='max-w-7xl mx-auto h-16 px-6 flex items-center justify-between'>
           <div className='flex items-center gap-3'>
             <Image src={"/logo.png"} alt='logo' width={44} height={44} priority />
 
           </div>
 
-          <div className='flex items-center gap-2 text-xs px-3 py-1.5 rounded-full bg-black text-white'>
-            <User size={14} />
-            Admin Dashboard
+          <div className='flex items-center gap-3'>
+            <ThemeToggle variant="onLight" />
+            <div className='flex items-center gap-2 text-xs px-3 py-1.5 rounded-full bg-accent text-accent-foreground tracking-wide'>
+              <User size={14} />
+              Admin Dashboard
+            </div>
           </div>
         </div>
       </div>
@@ -70,7 +74,7 @@ function AdminDashboard() {
         </div>
 
 
-        <div className='bg-white rounded-2xl p-2 shadow-lg border border-gray-100 flex flex-wrap gap-2'>
+        <div className='bg-card rounded-2xl p-2 shadow-[var(--shadow-soft)] border border-border flex flex-wrap gap-2'>
           <TabButton
             active={activeTab == "partner"}
             count={partnerReviews?.length ?? 0}

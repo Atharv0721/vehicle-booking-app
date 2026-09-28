@@ -108,7 +108,7 @@ function AuthModal({ open, onClose }: propType) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-90 bg-black/80 backdrop-blur-md"
+                        className="fixed inset-0 z-90 bg-[var(--overlay)] backdrop-blur-md"
                     >
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95, y: 40 }}
@@ -117,29 +117,29 @@ function AuthModal({ open, onClose }: propType) {
                             exit={{ opacity: 0, scale: 0.95, y: 40 }}
                             className="fixed inset-0 z-100 flex items-center justify-center px-4"
                         >
-                            <div className='relative w-full max-w-md rounded-3xl bg-white border border-black/10 shadow-[0_40px_100px_rgba(0,0,0,0.35)] p-6 sm:p-8 text-black'>
-                                <div className='absolute right-4 top-4 text-gray-500 hover:text-black transition' onClick={onClose}>
+                            <div className='relative w-full max-w-md rounded-3xl bg-card text-card-foreground border border-border shadow-[var(--shadow-elevated)] p-6 sm:p-8'>
+                                <div className='absolute right-4 top-4 text-muted-foreground hover:text-foreground transition-colors duration-200 cursor-pointer' onClick={onClose}>
                                     <X size={20} />
                                 </div>
                                 <div className='mb-6 text-center'>
-                                    <h1 className='text-3xl font-extrabold tracking-widest'>RYDEX</h1>
-                                    <p className='mt-1 text-xs text-gray-500'>Premium Vehicle Booking</p>
+                                    <h1 className='text-3xl font-extrabold tracking-[0.2em] text-foreground'>RYDEX</h1>
+                                    <p className='mt-1 text-xs text-muted-foreground tracking-wide'>Premium Vehicle Booking</p>
                                 </div>
 
-                                <button className=' w-full h-11 rounded-xl
-                  border border-black/20
+                                <button className='w-full h-11 rounded-xl
+                  border border-border-strong
                   flex items-center justify-center gap-3
-                  text-sm font-semibold
-                  hover:bg-black hover:text-white
-                  transition' onClick={handleGoogleLogin}>
+                  text-sm font-semibold text-foreground
+                  hover:bg-accent hover:text-accent-foreground hover:border-accent
+                  transition-all duration-300' onClick={handleGoogleLogin}>
                                     <Image src="/google.png" alt='Google' width={20} height={20} />
                                     Continue with Google
                                 </button>
 
                                 <div className='flex items-center gap-4 my-6'>
-                                    <div className='flex-1 h-px bg-black/10' />
-                                    <div className='text-xs text-gray-500'>OR</div>
-                                    <div className='flex-1 h-px bg-black/10' />
+                                    <div className='flex-1 h-px bg-border' />
+                                    <div className='text-xs text-muted-foreground tracking-widest'>OR</div>
+                                    <div className='flex-1 h-px bg-border' />
                                 </div>
                                 <div>
                                     {step == "login" && (
@@ -148,15 +148,15 @@ function AuthModal({ open, onClose }: propType) {
                                             animate={{ opacity: 1, x: 0 }}
 
                                         >
-                                            <h1 className='text-xl font-semibold' >Welcome back</h1>
+                                            <h1 className='text-xl font-semibold tracking-tight text-foreground' >Welcome back</h1>
                                             <div className='mt-5 space-y-4'>
-                                                <div className='flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3'>
-                                                    <Mail size={18} className='text-gray-500' />
-                                                    <input type="email" placeholder='Email' className='w-full bg-transparent outline-none text-sm' onChange={(e) => setEmail(e.target.value)} value={email} />
+                                                <div className='flex items-center gap-3 border border-border rounded-xl px-4 py-3 bg-muted/40 transition-colors duration-200 focus-within:border-border-strong'>
+                                                    <Mail size={18} className='text-muted-foreground' />
+                                                    <input type="email" placeholder='Email' className='w-full bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground' onChange={(e) => setEmail(e.target.value)} value={email} />
                                                 </div>
-                                                <div className='flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3'>
-                                                    <Lock size={18} className='text-gray-500' />
-                                                    <input type="password" placeholder='Password' className='w-full bg-transparent outline-none text-sm' onChange={(e) => setPassword(e.target.value)} value={password} />
+                                                <div className='flex items-center gap-3 border border-border rounded-xl px-4 py-3 bg-muted/40 transition-colors duration-200 focus-within:border-border-strong'>
+                                                    <Lock size={18} className='text-muted-foreground' />
+                                                    <input type="password" placeholder='Password' className='w-full bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground' onChange={(e) => setPassword(e.target.value)} value={password} />
                                                 </div>
                                                 {err && (
                                                     <p className="text-red-500 text-sm">
@@ -164,17 +164,17 @@ function AuthModal({ open, onClose }: propType) {
                                                     </p>
                                                 )}
 
-                                                <button className='w-full h-11 rounded-xl bg-black text-white font-semibold hover:bg-gray-900 transition flex justify-center items-center' onClick={handleLogin}>{!loading ? "Login" : <CircleDashed size={18} color='white' className='animate-spin' />}</button>
+                                                <button className='w-full h-11 rounded-xl bg-accent text-accent-foreground font-semibold hover:opacity-90 transition-all duration-300 flex justify-center items-center shadow-[var(--shadow-soft)]' onClick={handleLogin}>{!loading ? "Login" : <CircleDashed size={18} className='animate-spin text-accent-foreground' />}</button>
 
                                             </div>
-                                            <p className="mt-6 text-center text-sm text-gray-500">
+                                            <p className="mt-6 text-center text-sm text-muted-foreground">
                                                 Don’t have an account?{" "}
                                                 <span
                                                     onClick={() => {
                                                         setErr("");
                                                         setStep("signup");
                                                     }}
-                                                    className="text-black font-medium hover:underline cursor-pointer"
+                                                    className="text-foreground font-medium hover:underline cursor-pointer"
                                                 >
                                                     Sign Up
                                                 </span>
@@ -188,30 +188,30 @@ function AuthModal({ open, onClose }: propType) {
                                             animate={{ opacity: 1, x: 0 }}
 
                                         >
-                                            <h1 className='text-xl font-semibold' >Create Account</h1>
+                                            <h1 className='text-xl font-semibold tracking-tight text-foreground' >Create Account</h1>
                                             <div className='mt-5 space-y-4'>
-                                                <div className='flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3'>
-                                                    <User size={18} className='text-gray-500' />
-                                                    <input type="text" placeholder='Full Name' className='w-full bg-transparent outline-none text-sm' onChange={(e) => setName(e.target.value)} value={name} />
+                                                <div className='flex items-center gap-3 border border-border rounded-xl px-4 py-3 bg-muted/40 transition-colors duration-200 focus-within:border-border-strong'>
+                                                    <User size={18} className='text-muted-foreground' />
+                                                    <input type="text" placeholder='Full Name' className='w-full bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground' onChange={(e) => setName(e.target.value)} value={name} />
                                                 </div>
-                                                <div className='flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3'>
-                                                    <Mail size={18} className='text-gray-500' />
-                                                    <input type="email" placeholder='Email' className='w-full bg-transparent outline-none text-sm' onChange={(e) => setEmail(e.target.value)} value={email} />
+                                                <div className='flex items-center gap-3 border border-border rounded-xl px-4 py-3 bg-muted/40 transition-colors duration-200 focus-within:border-border-strong'>
+                                                    <Mail size={18} className='text-muted-foreground' />
+                                                    <input type="email" placeholder='Email' className='w-full bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground' onChange={(e) => setEmail(e.target.value)} value={email} />
                                                 </div>
-                                                <div className='flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3'>
-                                                    <Lock size={18} className='text-gray-500' />
-                                                    <input type="password" placeholder='Password' className='w-full bg-transparent outline-none text-sm' onChange={(e) => setPassword(e.target.value)} value={password} />
+                                                <div className='flex items-center gap-3 border border-border rounded-xl px-4 py-3 bg-muted/40 transition-colors duration-200 focus-within:border-border-strong'>
+                                                    <Lock size={18} className='text-muted-foreground' />
+                                                    <input type="password" placeholder='Password' className='w-full bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground' onChange={(e) => setPassword(e.target.value)} value={password} />
                                                 </div>
 
                                                 {err && <p className='text-red-500 '>*{err}</p>}
 
-                                                <button className='w-full h-11 rounded-xl bg-black text-white font-semibold hover:bg-gray-900 transition flex justify-center items-center' disabled={loading} onClick={handleSignUp}>{!loading ? "Send Otp" : <CircleDashed size={18} color='white' className='animate-spin' />}</button>
+                                                <button className='w-full h-11 rounded-xl bg-accent text-accent-foreground font-semibold hover:opacity-90 transition-all duration-300 flex justify-center items-center shadow-[var(--shadow-soft)]' disabled={loading} onClick={handleSignUp}>{!loading ? "Send Otp" : <CircleDashed size={18} className='animate-spin text-accent-foreground' />}</button>
 
                                             </div>
-                                            <p className='mt-6 text-center text-sm text-gray-500'> Already have an account?{" "} <span onClick={() => {
+                                            <p className='mt-6 text-center text-sm text-muted-foreground'> Already have an account?{" "} <span onClick={() => {
                                                 setErr("");
                                                 setStep("login");
-                                            }} className='text-black font-medium hover:underline cursor-pointer'>Login</span></p>
+                                            }} className='text-foreground font-medium hover:underline cursor-pointer'>Login</span></p>
 
                                         </motion.div>
                                     )}
@@ -223,7 +223,7 @@ function AuthModal({ open, onClose }: propType) {
                                             animate={{ opacity: 1, x: 0 }}
                                             exit={{ opacity: 0, x: -20 }}
                                         >
-                                            <h2 className='text-xl font-semibold'>Verify Email</h2>
+                                            <h2 className='text-xl font-semibold tracking-tight text-foreground'>Verify Email</h2>
 
                                             <div className='mt-6 flex justify-between gap-2'>
                                                 {otp.map((digit, i) => (
@@ -234,9 +234,11 @@ function AuthModal({ open, onClose }: propType) {
                                                         maxLength={1}
                                                         className='w-10 h-12 sm:w-12
                             text-center text-lg font-semibold
-                            rounded-xl bg-white
-                            border border-black/20
-                            outline-none'
+                            rounded-xl bg-muted
+                            border border-border text-foreground
+                            outline-none
+                            focus:border-border-strong
+                            transition-colors duration-200'
                                                         onChange={(e) => handleChangeOtp(i, e.target.value)}
 
                                                     />
@@ -245,7 +247,7 @@ function AuthModal({ open, onClose }: propType) {
                                             </div>
 
                                             {err && <p className='text-red-500 '>*{err}</p>}
-                                            <button className='mt-6 w-full h-11 rounded-xl bg-black text-white font-semibold hover:bg-gray-900 flex justify-center items-center transition' onClick={handleVerifyEmail}>{!loading ? "Verify OTP and Create Account" : <CircleDashed size={18} color='white' className='animate-spin' />}</button>
+                                            <button className='mt-6 w-full h-11 rounded-xl bg-accent text-accent-foreground font-semibold hover:opacity-90 flex justify-center items-center transition-all duration-300 shadow-[var(--shadow-soft)]' onClick={handleVerifyEmail}>{!loading ? "Verify OTP and Create Account" : <CircleDashed size={18} className='animate-spin text-accent-foreground' />}</button>
 
                                         </motion.div>
                                     )}

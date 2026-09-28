@@ -150,7 +150,7 @@ const showPickUpRoute=mapStatus==="arriving" && routeToPickUp.length>0
 const showDropRoute=mapStatus!="completed" && routeToDrop.length>0
 
     return (
-        <div className='relative h-full w-full bg-zinc-100'>
+        <div className='relative h-full w-full bg-muted'>
             <MapContainer
                 style={{ width: "100%", height: "100%" }}
                 center={pickUpLocation as any}
